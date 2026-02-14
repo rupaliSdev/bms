@@ -17,15 +17,19 @@ public class PriceCalculationService {
 
     @Autowired private ShowSeatTypeRepository showSeatTypeRepository;
     @Autowired private ShowSeatRepository showSeatRepository;
+
     public double calculatePrice(Show show, List<Long> showSeatIds) {
         List<ShowSeatType> showSeatTypes=showSeatTypeRepository.findAllByShow(show);
+        List<ShowSeat> showSeats = showSeatRepository.findAllById(showSeatIds);
+        double totalPrice =0;
 
-        for(ShowSeatType showSeatType:showSeatTypes){
-//            ShowSeatType seat=showSeatType.getPrice();
-
-
+        for(ShowSeat showSeat:showSeats){
+            for (ShowSeatType showSeatType:showSeatTypes){
+                if(showSeat.getSeat().getType().equals(showSeatType.getSeatType())){
+                    totalPrice+=showSeatType.getPrice();
+                }
+            }
         }
-        return 0.0;
-
+        return totalPrice;
     }
 }
