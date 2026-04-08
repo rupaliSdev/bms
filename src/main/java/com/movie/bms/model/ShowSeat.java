@@ -24,7 +24,6 @@ public class ShowSeat extends BaseModel
     @Enumerated(EnumType.STRING)
     private ShowSeatStatus status;
 
-    private Double price;
 
     private LocalDateTime blockedAt; // For timeout mechanism
 

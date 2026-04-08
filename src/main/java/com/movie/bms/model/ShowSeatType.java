@@ -20,6 +20,7 @@ public class ShowSeatType extends BaseModel {
     @Enumerated(EnumType.STRING)
     private SeatType seatType;
 
-    private int price;
+
+    private double price;
 
 }

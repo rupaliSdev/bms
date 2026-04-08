@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class PriceCalculationService {
@@ -19,13 +21,16 @@ public class PriceCalculationService {
     @Autowired private ShowSeatRepository showSeatRepository;
     public double calculatePrice(Show show, List<Long> showSeatIds) {
         List<ShowSeatType> showSeatTypes=showSeatTypeRepository.findAllByShow(show);
+        double price =0.0;
+        Map<SeatType,Double> seatTypePrice = showSeatTypes.stream().collect(Collectors.toMap(
+                ShowSeatType::getSeatType,
+                ShowSeatType::getPrice));
 
-        for(ShowSeatType showSeatType:showSeatTypes){
-//            ShowSeatType seat=showSeatType.getPrice();
-
-
+        List<ShowSeat> showSeats= showSeatRepository.findAllById(showSeatIds);
+        for(ShowSeat showSeat:showSeats){
+           price+=seatTypePrice.get(showSeat.getSeat().getType());
         }
-        return 0.0;
+        return price;
 
     }
 }
