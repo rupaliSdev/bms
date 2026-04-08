@@ -77,11 +77,13 @@ public class BookingService {
 
                     }
                 }
-                //block the seat
 
+                //block the seat
                 showSeat.setStatus(ShowSeatStatus.BLOCKED);
                 showSeat.setBlockedAt(LocalDateTime.now());
                 showSeat.setBooking(booking);
+
+
                 showSeatRepository.save(showSeat);
             }
             catch(OptimisticLockException e){
@@ -93,8 +95,6 @@ public class BookingService {
 
         booking.setPrice(priceCalculationService.calculatePrice(show, showSeatIds));
         return bookingRepository.save(booking);
-
-
     }
 
     private boolean isBlockExpired(LocalDateTime blockedAt) {
@@ -105,6 +105,12 @@ public class BookingService {
 
     private String generateBookingNumber() {
         return String.valueOf(UUID.randomUUID());
+    }
+
+    public Booking confirmBooking(){
+
+
+        
     }
 
 }
